@@ -10,7 +10,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -20,6 +23,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Headers;
 
@@ -36,7 +40,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  replace the ActionBar title with customized XML
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
         setContentView(R.layout.activity_timeline);
 
@@ -79,6 +83,23 @@ public class TimelineActivity extends AppCompatActivity {
         // Adds the scroll listener to RecyclerView
         rvTweets.addOnScrollListener(scrollListener);
         populateHomeTimeLine();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() ==R.id.compose){
+            //compose icon tapped
+            Toast.makeText(this, "compose clicked", Toast.LENGTH_SHORT).show();
+            //navigate to compose activity
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // this is where we will make another API call to get the next page of tweets and add the objects to our current list of tweets
