@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,6 +11,7 @@
         android:id="@+id/swipeContainer"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTweets"
             android:layout_width="match_parent"
@@ -20,4 +21,18 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCompose"
+        android:src="@drawable/vector_compose_fab"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="30dp"
+        app:layout_anchor="@id/rvTweets"
+        app:layout_anchorGravity="bottom|right|end"
+        app:elevation="0dp"
+        app:pressedTranslationZ="0dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

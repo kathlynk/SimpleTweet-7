@@ -1,15 +1,21 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.LoginFilter;
 import android.text.ParcelableSpan;
+import android.text.TextWatcher;
+import android.util.AndroidException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -22,10 +28,12 @@ import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 280;
     public static final String TAG = "ComposeActivty";
+    String countTxt;
     EditText etCompose;
     Button btnTweet;
+    TextView tvCharCount;
 
     TwitterClient client;
 
@@ -38,7 +46,38 @@ public class ComposeActivity extends AppCompatActivity {
 
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+        tvCharCount = findViewById(R.id.tvCharCount);
+        countTxt = "0/"+MAX_TWEET_LENGTH;
+        tvCharCount.setText(countTxt);
 
+        etCompose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.length() == 0 ){
+                    tvCharCount.setTextColor(getResources().getColor(R.color.medium_gray));
+                    btnTweet.setEnabled(false);
+                }else if (s.length() <= MAX_TWEET_LENGTH){
+                    tvCharCount.setTextColor(getResources().getColor(R.color.medium_gray));
+                    btnTweet.setEnabled(true);
+                }else{
+                    tvCharCount.setTextColor(Color.RED);
+                    btnTweet.setEnabled(false);
+                }
+                countTxt= s.length()+"/"+MAX_TWEET_LENGTH;
+                tvCharCount.setText(countTxt);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         //Set a click listener on the button
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override

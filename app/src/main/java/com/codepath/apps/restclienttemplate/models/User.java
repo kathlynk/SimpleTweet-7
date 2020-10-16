@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -35,6 +37,7 @@ public class User {
         user.name = jsonObject.getString("name");
         user.screenName = "@"+jsonObject.getString("screen_name");
         user.profileImageUrl = jsonObject.getString("profile_image_url_https");
+
         return user;
     }
     public static List<User> fromJsonTweetArray(List<Tweet> tweetsFromNetwork){

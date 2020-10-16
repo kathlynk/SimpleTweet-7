@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
 import android.service.autofill.AutofillService;
+import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -31,6 +32,9 @@ public class Tweet {
     @ColumnInfo
     public String createdAt;
     @ColumnInfo
+    public String mediaUrl;
+
+    @ColumnInfo
     public Long userId;
     // this field will be ignored by Room, but still can be used in other places in the Twitter app
     @Ignore
@@ -48,6 +52,17 @@ public class Tweet {
         User user =  User.fromJson(jsonObject.getJSONObject("user"));
         tweet.user = user;
         tweet.userId = user.id;
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        if (entities.has("media")) {
+
+            JSONArray medias = entities.getJSONArray("media");
+            if (medias.length() > 0) {
+                JSONObject media = (JSONObject) medias.get(0);
+                if (media.has("media_url_https")) {
+                    tweet.mediaUrl = media.getString("media_url_https");
+                }
+            }
+        }
         return tweet;
     }
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {

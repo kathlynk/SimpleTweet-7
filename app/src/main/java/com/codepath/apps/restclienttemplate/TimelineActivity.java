@@ -16,6 +16,7 @@ import android.text.ParcelableSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.codepath.apps.restclienttemplate.models.TweetDao;
 import com.codepath.apps.restclienttemplate.models.TweetWithUser;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
+    FloatingActionButton fabCompose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,16 @@ public class TimelineActivity extends AppCompatActivity {
 
         //swipe container
         swipeContainer = findViewById(R.id.swipeContainer);
+        //fab
+        fabCompose = findViewById(R.id.fabCompose);
+        fabCompose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TimelineActivity.this,ComposeActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
+                
+            }
+        });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -132,6 +145,7 @@ public class TimelineActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     // result returned from Compose Activity to parent
     //result code defined by android
     //data defined by child activity
